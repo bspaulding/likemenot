@@ -35418,7 +35418,8 @@ module.exports = require('./lib/React');
 }.call(this));
 
 },{}],"/Users/bspaulding/source/likemenot/src/components/like-me-not.jsx":[function(require,module,exports){
-var React = require("react");
+var React = require("react/addons");
+var ClassSet = React.addons.classSet;
 var PageStore = require("../stores/page-store.js");
 var PageReview = require("./page-review.jsx");
 var PageLiker = require("./page-liker.jsx");
@@ -35456,10 +35457,14 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
    return this.state.pages.indexOf(this.state.currentPage);
   },
 
-  previousPage: function() {
+  previousPage: function(event) {
+    if (event.target.parentElement.classList.contains("disabled")) { return false; }
+
     this.setState({ currentPage: this.state.pages[this.currentIndex()-1] });
   },
-  nextPage: function() {
+  nextPage: function(event) {
+    if (event.target.parentElement.classList.contains("disabled")) { return; }
+
     this.setState({ currentPage: this.state.pages[this.currentIndex()+1] });
   },
 
@@ -35468,29 +35473,33 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
     var nextEnabled = cindex < this.state.pages.length - 1;
     var prevEnabled = cindex > 0;
 
+    var previousButtonClass = ClassSet({ "disabled": !prevEnabled });
+    var nextButtonClass = ClassSet({ "disabled": !nextEnabled });
+
+    var likeButtonsStyle = { textAlign: "right", paddingTop: 40 };
+    var navButtonStyle = { cursor: "pointer" };
+
     return (
       React.createElement("div", {className: "container-fluid"}, 
         React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "col-md-12"}, 
+          React.createElement("div", {className: "col-xs-6"}, 
             React.createElement("h1", null, "LikeMeNot")
-          )
-        ), 
-        React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "col-md-4"}, 
+          ), 
+          React.createElement("div", {className: "col-xs-6 pull-right", style: likeButtonsStyle}, 
+            this.state.currentPage ? React.createElement(PageLiker, {like: this.like, dislike: this.dislike, isLiked: this.state.currentPage.isLiked}) : ''
+          ), 
+          React.createElement("div", {className: "col-xs-6"}, 
             React.createElement("span", null, pluralize(this.state.pages.length, "thing", "things"), " to like")
           ), 
-          React.createElement("div", {className: "col-md-4"}, 
-            this.state.currentPage ? React.createElement(PageLiker, {like: this.like, dislike: this.dislike, isLiked: this.state.currentPage.isLiked}) : ''
-          )
-        ), 
-        React.createElement("div", {className: "row"}, 
-          React.createElement("nav", {className: "col-md-12"}, 
-            React.createElement("ul", {className: "pagination"}, 
-              React.createElement("li", {onClick: this.previousPage}, 
-                prevEnabled ? React.createElement("a", {href: "#", "aria-label": "Previous"}, React.createElement("span", {"aria-hidden": "true"}, "Previous")) : ''
-              ), 
-              React.createElement("li", {onClick: this.nextPage}, 
-                nextEnabled ? React.createElement("a", {href: "#", "aria-label": "Next"}, React.createElement("span", {"aria-hidden": "true"}, "Next")) : ''
+          React.createElement("div", {className: "col-xs-12"}, 
+            React.createElement("nav", null, 
+              React.createElement("ul", {className: "pagination"}, 
+                React.createElement("li", {className: previousButtonClass, onClick: this.previousPage, style: navButtonStyle}, 
+                  React.createElement("span", {"aria-hidden": "true"}, "Previous")
+                ), 
+                React.createElement("li", {className: nextButtonClass, onClick: this.nextPage, style: navButtonStyle}, 
+                  React.createElement("span", {"aria-hidden": "true"}, "Next")
+                )
               )
             )
           )
@@ -35504,13 +35513,14 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
 module.exports = LikeMeNot;
 
 
-},{"../stores/page-store.js":"/Users/bspaulding/source/likemenot/src/stores/page-store.js","./page-liker.jsx":"/Users/bspaulding/source/likemenot/src/components/page-liker.jsx","./page-review.jsx":"/Users/bspaulding/source/likemenot/src/components/page-review.jsx","react":"/Users/bspaulding/source/likemenot/node_modules/react/react.js"}],"/Users/bspaulding/source/likemenot/src/components/page-liker.jsx":[function(require,module,exports){
+},{"../stores/page-store.js":"/Users/bspaulding/source/likemenot/src/stores/page-store.js","./page-liker.jsx":"/Users/bspaulding/source/likemenot/src/components/page-liker.jsx","./page-review.jsx":"/Users/bspaulding/source/likemenot/src/components/page-review.jsx","react/addons":"/Users/bspaulding/source/likemenot/node_modules/react/addons.js"}],"/Users/bspaulding/source/likemenot/src/components/page-liker.jsx":[function(require,module,exports){
 var React = require("react/addons");
 var ClassSet = React.addons.classSet;
 
 var PageLiker = React.createClass({displayName: "PageLiker",
   render: function() {
     var buttonIconStyle = { marginRight: 10 };
+    var dislikeButtonStyle = { "float": "left" };
     var thumbsUpButtonClasses = ClassSet({
       "btn btn-lg": true,
       "btn-default": typeof this.props.isLiked === 'undefined' || !this.props.isLiked,
@@ -35522,14 +35532,18 @@ var PageLiker = React.createClass({displayName: "PageLiker",
       "btn-danger": typeof this.props.isLiked !== 'undefined' && !this.props.isLiked
     });
     return (
-      React.createElement("div", null, 
-        React.createElement("button", {className: thumbsUpButtonClasses, onClick: this.props.like}, 
-          React.createElement("span", {className: "glyphicon glyphicon-thumbs-up", style: buttonIconStyle, "aria-hidden": "true"}), 
-          "I Like It!"
+      React.createElement("div", {className: "row"}, 
+        React.createElement("div", {className: "col-xs-6"}, 
+          React.createElement("button", {className: thumbsUpButtonClasses, onClick: this.props.like}, 
+            React.createElement("span", {className: "glyphicon glyphicon-thumbs-up", style: buttonIconStyle, "aria-hidden": "true"}), 
+            "I Like It!"
+          )
         ), 
-        React.createElement("button", {className: thumbsDownButtonClasses, onClick: this.props.dislike, style: buttonIconStyle}, 
-          React.createElement("span", {className: "glyphicon glyphicon-thumbs-down", style: buttonIconStyle, "aria-hidden": "true"}), 
-          "Meh."
+        React.createElement("div", {className: "col-xs-6"}, 
+          React.createElement("button", {className: thumbsDownButtonClasses, onClick: this.props.dislike, style: dislikeButtonStyle}, 
+            React.createElement("span", {className: "glyphicon glyphicon-thumbs-down", style: buttonIconStyle, "aria-hidden": "true"}), 
+            "Meh."
+          )
         )
       )
     );
@@ -35551,7 +35565,7 @@ var PageReview = React.createClass({displayName: "PageReview",
       React.createElement("div", {className: "row"}, 
         this.props.page.images.map(function(url) {
           return (
-            React.createElement("div", {className: "col-xs-6 col-md-3"}, 
+            React.createElement("div", {key: url, className: "col-xs-6 col-md-3"}, 
               React.createElement("a", {href: "#", className: "thumbnail"}, 
                 React.createElement("img", {src: url})
               )
