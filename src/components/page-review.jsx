@@ -7,7 +7,7 @@ var PageReview = React.createClass({
       <div className="row">
         {this.props.page.images.map(function(url) {
           return (
-            <div className="col-xs-6 col-md-3">
+            <div key={url} className="col-xs-6 col-md-3">
               <a href="#" className="thumbnail">
                 <img src={url}/>
               </a>
