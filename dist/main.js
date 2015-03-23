@@ -35480,12 +35480,16 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
     var navStyle = { textAlign: "center" };
     var navButtonStyle = { cursor: "pointer" };
 
+    var numUnliked = this.state.pages.reduce(function(sum, page) {
+      return sum + (page.hasOwnProperty("isLiked") ? 0 : 1);
+    }, 0);
+
     return (
       React.createElement("div", {className: "container-fluid"}, 
         React.createElement("div", {className: "row"}, 
           React.createElement("div", {className: "col-xs-12"}, 
             React.createElement("h1", null, "Like Me Not?"), 
-            React.createElement("span", null, pluralize(this.state.pages.length, "thing", "things"), " to like")
+            React.createElement("span", null, pluralize(this.state.pages.length, "thing", "things"), ", ", numUnliked, " more to like")
           ), 
           React.createElement("div", {className: "col-xs-12", style: navStyle}, 
             React.createElement("nav", null, 

@@ -60,12 +60,16 @@ var LikeMeNot = React.createClass({
     var navStyle = { textAlign: "center" };
     var navButtonStyle = { cursor: "pointer" };
 
+    var numUnliked = this.state.pages.reduce(function(sum, page) {
+      return sum + (page.hasOwnProperty("isLiked") ? 0 : 1);
+    }, 0);
+
     return (
       <div className="container-fluid">
         <div className="row">
           <div className="col-xs-12">
             <h1>Like Me Not?</h1>
-            <span>{pluralize(this.state.pages.length, "thing", "things")} to like</span>
+            <span>{pluralize(this.state.pages.length, "thing", "things")}, {numUnliked} more to like</span>
           </div>
           <div className="col-xs-12" style={navStyle}>
             <nav>
