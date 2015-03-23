@@ -56,22 +56,18 @@ var LikeMeNot = React.createClass({
     var previousButtonClass = ClassSet({ "disabled": !prevEnabled });
     var nextButtonClass = ClassSet({ "disabled": !nextEnabled });
 
-    var likeButtonsStyle = { textAlign: "right", paddingTop: 40 };
+    var likeButtonsStyle = { textAlign: "right", marginBottom: 20 };
+    var navStyle = { textAlign: "center" };
     var navButtonStyle = { cursor: "pointer" };
 
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-xs-6">
-            <h1>LikeMeNot</h1>
-          </div>
-          <div className="col-xs-6 pull-right" style={likeButtonsStyle}>
-            {this.state.currentPage ? <PageLiker like={this.like} dislike={this.dislike} isLiked={this.state.currentPage.isLiked}/> : ''}
-          </div>
-          <div className="col-xs-6">
+          <div className="col-xs-12">
+            <h1>Like Me Not?</h1>
             <span>{pluralize(this.state.pages.length, "thing", "things")} to like</span>
           </div>
-          <div className="col-xs-12">
+          <div className="col-xs-12" style={navStyle}>
             <nav>
               <ul className="pagination">
                 <li className={previousButtonClass} onClick={this.previousPage} style={navButtonStyle}>
@@ -82,6 +78,9 @@ var LikeMeNot = React.createClass({
                 </li>
               </ul>
             </nav>
+          </div>
+          <div className="col-xs-12" style={likeButtonsStyle}>
+            {this.state.currentPage ? <PageLiker like={this.like} dislike={this.dislike} isLiked={this.state.currentPage.isLiked}/> : ''}
           </div>
         </div>
         {this.state.currentPage ? <PageReview page={this.state.currentPage}/> : ''}

@@ -35476,22 +35476,18 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
     var previousButtonClass = ClassSet({ "disabled": !prevEnabled });
     var nextButtonClass = ClassSet({ "disabled": !nextEnabled });
 
-    var likeButtonsStyle = { textAlign: "right", paddingTop: 40 };
+    var likeButtonsStyle = { textAlign: "right", marginBottom: 20 };
+    var navStyle = { textAlign: "center" };
     var navButtonStyle = { cursor: "pointer" };
 
     return (
       React.createElement("div", {className: "container-fluid"}, 
         React.createElement("div", {className: "row"}, 
-          React.createElement("div", {className: "col-xs-6"}, 
-            React.createElement("h1", null, "LikeMeNot")
-          ), 
-          React.createElement("div", {className: "col-xs-6 pull-right", style: likeButtonsStyle}, 
-            this.state.currentPage ? React.createElement(PageLiker, {like: this.like, dislike: this.dislike, isLiked: this.state.currentPage.isLiked}) : ''
-          ), 
-          React.createElement("div", {className: "col-xs-6"}, 
+          React.createElement("div", {className: "col-xs-12"}, 
+            React.createElement("h1", null, "Like Me Not?"), 
             React.createElement("span", null, pluralize(this.state.pages.length, "thing", "things"), " to like")
           ), 
-          React.createElement("div", {className: "col-xs-12"}, 
+          React.createElement("div", {className: "col-xs-12", style: navStyle}, 
             React.createElement("nav", null, 
               React.createElement("ul", {className: "pagination"}, 
                 React.createElement("li", {className: previousButtonClass, onClick: this.previousPage, style: navButtonStyle}, 
@@ -35502,6 +35498,9 @@ var LikeMeNot = React.createClass({displayName: "LikeMeNot",
                 )
               )
             )
+          ), 
+          React.createElement("div", {className: "col-xs-12", style: likeButtonsStyle}, 
+            this.state.currentPage ? React.createElement(PageLiker, {like: this.like, dislike: this.dislike, isLiked: this.state.currentPage.isLiked}) : ''
           )
         ), 
         this.state.currentPage ? React.createElement(PageReview, {page: this.state.currentPage}) : ''
@@ -35565,7 +35564,7 @@ var PageReview = React.createClass({displayName: "PageReview",
       React.createElement("div", {className: "row"}, 
         this.props.page.images.map(function(url) {
           return (
-            React.createElement("div", {key: url, className: "col-xs-6 col-md-3"}, 
+            React.createElement("div", {key: url, className: "col-xs-12 col-md-3"}, 
               React.createElement("a", {href: "#", className: "thumbnail"}, 
                 React.createElement("img", {src: url})
               )
