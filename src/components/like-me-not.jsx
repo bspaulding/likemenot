@@ -1,4 +1,5 @@
-var React = require("react");
+var React = require("react/addons");
+var ClassSet = React.addons.classSet;
 var PageStore = require("../stores/page-store.js");
 var PageReview = require("./page-review.jsx");
 var PageLiker = require("./page-liker.jsx");
@@ -36,10 +37,14 @@ var LikeMeNot = React.createClass({
    return this.state.pages.indexOf(this.state.currentPage);
   },
 
-  previousPage: function() {
+  previousPage: function(event) {
+    if (event.target.parentElement.classList.contains("disabled")) { return false; }
+
     this.setState({ currentPage: this.state.pages[this.currentIndex()-1] });
   },
-  nextPage: function() {
+  nextPage: function(event) {
+    if (event.target.parentElement.classList.contains("disabled")) { return; }
+
     this.setState({ currentPage: this.state.pages[this.currentIndex()+1] });
   },
 
@@ -48,32 +53,36 @@ var LikeMeNot = React.createClass({
     var nextEnabled = cindex < this.state.pages.length - 1;
     var prevEnabled = cindex > 0;
 
+    var previousButtonClass = ClassSet({ "disabled": !prevEnabled });
+    var nextButtonClass = ClassSet({ "disabled": !nextEnabled });
+
+    var likeButtonsStyle = { textAlign: "right", paddingTop: 40 };
+    var navButtonStyle = { cursor: "pointer" };
+
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-xs-6">
             <h1>LikeMeNot</h1>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-4">
-            <span>{pluralize(this.state.pages.length, "thing", "things")} to like</span>
-          </div>
-          <div className="col-md-4">
+          <div className="col-xs-6 pull-right" style={likeButtonsStyle}>
             {this.state.currentPage ? <PageLiker like={this.like} dislike={this.dislike} isLiked={this.state.currentPage.isLiked}/> : ''}
           </div>
-        </div>
-        <div className="row">
-          <nav className="col-md-12">
-            <ul className="pagination">
-              <li onClick={this.previousPage}>
-                {prevEnabled ? <a href="#" aria-label="Previous"><span aria-hidden="true">Previous</span></a> : ''}
-              </li>
-              <li onClick={this.nextPage}>
-                {nextEnabled ? <a href="#" aria-label="Next"><span aria-hidden="true">Next</span></a> : ''}
-              </li>
-            </ul>
-          </nav>
+          <div className="col-xs-6">
+            <span>{pluralize(this.state.pages.length, "thing", "things")} to like</span>
+          </div>
+          <div className="col-xs-12">
+            <nav>
+              <ul className="pagination">
+                <li className={previousButtonClass} onClick={this.previousPage} style={navButtonStyle}>
+                  <span aria-hidden="true">Previous</span>
+                </li>
+                <li className={nextButtonClass} onClick={this.nextPage} style={navButtonStyle}>
+                  <span aria-hidden="true">Next</span>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
         {this.state.currentPage ? <PageReview page={this.state.currentPage}/> : ''}
       </div>
