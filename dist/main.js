@@ -35565,7 +35565,7 @@ var PageReview = React.createClass({displayName: "PageReview",
         this.props.page.images.map(function(url) {
           return (
             React.createElement("div", {key: url, className: "col-xs-12 col-md-3"}, 
-              React.createElement("a", {href: "#", className: "thumbnail"}, 
+              React.createElement("span", {href: "#", className: "thumbnail"}, 
                 React.createElement("img", {src: url})
               )
             )
