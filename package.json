@@ -12,6 +12,7 @@
     "promise": "^6.1.0",
     "react": "^0.13.0",
     "underscore": "^1.8.2",
+    "webpack": "^1.8.2",
     "x-ray": "^1.0.5",
     "x-ray-phantom": "0.0.1"
   },
