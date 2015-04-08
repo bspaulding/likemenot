@@ -19,9 +19,9 @@
     "webpack": "^1.8.2"
   },
   "scripts": {
-    "build": "webpack -p src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'",
+    "build": "webpack --progress --colors -p src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'"
+    "watch": "webpack --progress --colors --watch src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'"
   },
   "author": "",
   "license": "MIT"
