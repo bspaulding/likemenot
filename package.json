@@ -22,9 +22,9 @@
     "watchify": "^2.4.0"
   },
   "scripts": {
-    "build": "browserify -t reactify src/main.js > dist/main.js",
+    "build": "browserify -t reactify -g uglifyify src/main.js > dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify -v -t reactify src/main.js -o dist/main.js"
+    "watch": "watchify -v -t reactify -g uglifyify src/main.js -o dist/main.js"
   },
   "author": "",
   "license": "MIT"
