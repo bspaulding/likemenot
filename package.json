@@ -24,7 +24,7 @@
     "watchify": "^2.4.0"
   },
   "scripts": {
-    "build": "webpack src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'",
+    "build": "webpack -p src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify -v -t reactify -g uglifyify src/main.js -o dist/main.js"
   },
