@@ -13,15 +13,11 @@
     "promise": "^6.1.0",
     "react": "^0.13.0",
     "underscore": "^1.8.2",
-    "webpack": "^1.8.2",
     "x-ray": "^1.0.5",
     "x-ray-phantom": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "^9.0.3",
-    "reactify": "^1.1.0",
-    "uglifyify": "^3.0.1",
-    "watchify": "^2.4.0"
+    "webpack": "^1.8.2"
   },
   "scripts": {
     "build": "webpack -p src/main.js dist/main.js --module-bind 'js=jsx' --module-bind 'jsx=jsx'",
